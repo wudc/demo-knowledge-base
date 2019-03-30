@@ -1,15 +1,15 @@
-package com.myproject.service.impl;
+package com.myproject.demomyproject.service.impl;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myproject.model.Solution;
-import com.myproject.model.elasticsearch.EsSolution;
-import com.myproject.repository.KnowledgeRepository;
-import com.myproject.repository.elasticsearch.KnowledgeElasticSearchRepository;
-import com.myproject.service.KnowledgeBaseService;
+import com.myproject.demomyproject.model.Solution;
+import com.myproject.demomyproject.model.elasticsearch.EsSolution;
+import com.myproject.demomyproject.repository.KnowledgeRepository;
+import com.myproject.demomyproject.repository.elasticsearch.KnowledgeElasticSearchRepository;
+import com.myproject.demomyproject.service.KnowledgeBaseService;
 
 public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 

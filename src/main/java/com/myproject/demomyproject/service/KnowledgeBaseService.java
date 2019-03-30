@@ -1,6 +1,6 @@
-package com.myproject.service;
+package com.myproject.demomyproject.service;
 
-import com.myproject.model.Solution;
+import com.myproject.demomyproject.model.Solution;
 
 public interface KnowledgeBaseService {
 	public Solution saveSolution(Solution solution);

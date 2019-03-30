@@ -1,11 +1,11 @@
-package com.myproject.model.elasticsearch;
+package com.myproject.demomyproject.model.elasticsearch;
 
 import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
 
-import com.myproject.model.Solution;
+import com.myproject.demomyproject.model.Solution;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 
