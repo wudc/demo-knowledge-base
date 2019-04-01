@@ -4,8 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.myproject.demomyproject.model.Solution;
 
-public interface KnowledgeRepository extends MongoRepository<Solution, String>{
+public interface KnowledgeRepository extends MongoRepository<Solution, Long>{
 
-	Solution findByType(String type);
+	Solution findBySolutionType(String type);
 
 }

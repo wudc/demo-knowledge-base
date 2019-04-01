@@ -16,14 +16,21 @@ import lombok.ToString;
 public class Solution {
 
 	@Id
-    private String id;
-	private String type;
+    private Long id;
+	private String projectName;
     private String category;
-    private String content;
+    private String categoryDescription; 
+	private String solutionType;  //solution types: Implementation, Compensating Control, and False Positive
+    private String solutionInformation; //soltion data
+    private String comment;
     
-	public Solution(String category, String type, String content) {
-		this.type = type;
+	public Solution(String projectName, String category, String categoryDescription, 
+			String soltionType, String soltionInformation, String comment) {
+		this.projectName = projectName;
 		this.category = category;
-		this.content = content;
+		this.categoryDescription = categoryDescription;
+		this.solutionType = soltionType;
+		this.solutionInformation = soltionInformation;
+		this.comment = comment;
 	}
 }

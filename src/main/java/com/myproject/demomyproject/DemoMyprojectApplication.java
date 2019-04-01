@@ -26,9 +26,12 @@ public class DemoMyprojectApplication implements CommandLineRunner {
 
 	@Override
     public void run(String... args) throws Exception {
-		Solution sol1 = new Solution ("Cross-site injection", SolutionType.IMPLEMENTATION, "SanitizerHtml(input)");
-		Solution sol2 = new Solution ("Data access: database", SolutionType.COMPENSATING_CONTROL, "Using the Struts interceptor.");
-		Solution sol3 = new Solution ("Key Management", SolutionType.FALSE_POSITIVE, "This is detecting the user keyboard actions.");
+		Solution sol1 = new Solution ("Projet1", "Cross-site injection", "Cross-site attack", 
+				SolutionType.IMPLEMENTATION, "SanitizerHtml(input)", "comment1");
+		Solution sol2 = new Solution ("Projet2", "Data access: database", "Data access attack", 
+				SolutionType.COMPENSATING_CONTROL, "Using the Struts interceptor.", "comment2");
+		Solution sol3 = new Solution ("Projet3", "Key Management", "Key Management attack", 
+				SolutionType.FALSE_POSITIVE, "This is detecting the user keyboard actions.", "comment3");
 		
 		//insert solution objects into Mongo
 //		krepo.save(sol1);

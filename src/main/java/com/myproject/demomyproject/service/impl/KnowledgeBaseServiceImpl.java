@@ -29,20 +29,20 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 	
 	@Transactional
     @Override
-    public void deleteSolution(String id) {
+    public void deleteSolution(Long id) {
 		knowledgeRepository.deleteById(id);
-		knowledgeElasticSearchRepository.deleteById(id);
+		knowledgeElasticSearchRepository.deleteBySolutionId(id);
     }
 
 	@Override
-	public Solution findById(String id) {
+	public Solution findById(Long id) {
 		Optional<Solution> solution = knowledgeRepository.findById(id);
 		return solution.get();
 	}
 
 	@Override
 	public Solution findByType(String type) {
-		return knowledgeRepository.findByType(type);
+		return knowledgeRepository.findBySolutionType(type);
 	}
 
 }

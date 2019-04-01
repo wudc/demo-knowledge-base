@@ -27,10 +27,10 @@ public class EsSolution implements Serializable {
 	private static final long serialVersionUID = 5752926460899989168L;
 
 	@Id
-	private String id;
+	private Long id;
 	
 	@Field
-	private String solutionId;
+	private Long solutionId;
 	
 	@Field
 	private String type;
@@ -43,8 +43,8 @@ public class EsSolution implements Serializable {
     
     public void update(Solution solution) {
     	this.solutionId = solution.getId();
-    	this.type = solution.getType();
     	this.category = solution.getCategory();
-    	this.content = solution.getContent();
+    	this.type = solution.getSolutionType();
+    	this.content = solution.getSolutionInformation();
     }
 }
