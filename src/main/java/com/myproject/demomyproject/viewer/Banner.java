@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.myproject.demomyproject.model.Solution;
 import com.myproject.demomyproject.service.SolutionService;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,10 +14,10 @@ public class Banner {
 	@Autowired
 	private SolutionService solutionService;
 	
-	private SolutionForm categoryForm;
+	private SolutionFormView categoryForm;
 	private SolutionInformationEditor solutionInformation;
 	
-	public Banner(SolutionForm form, SolutionInformationEditor editor) {
+	public Banner(SolutionFormView form, SolutionInformationEditor editor) {
 		this.categoryForm = form;
 		this.solutionInformation = editor;
 	}
@@ -81,11 +79,11 @@ public class Banner {
 		//solutionService.save(solution);
 	}
 
-	public SolutionForm getCategoryForm() {
+	public SolutionFormView getCategoryForm() {
 		return categoryForm;
 	}
 
-	public void setCategoryForm(SolutionForm categoryForm) {
+	public void setCategoryForm(SolutionFormView categoryForm) {
 		this.categoryForm = categoryForm;
 	}
 
