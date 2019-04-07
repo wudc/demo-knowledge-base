@@ -1,26 +1,15 @@
 package com.myproject.demomyproject.viewer;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.myproject.demomyproject.model.Solution;
-import com.myproject.demomyproject.service.SolutionService;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.spring.annotation.UIScope;
 
+@Component
+@UIScope
 public class Banner {
-	@Autowired
-	private SolutionService solutionService;
-	
-	private SolutionFormView categoryForm;
-	private SolutionInformationEditor solutionInformation;
-	
-	public Banner(SolutionFormView form, SolutionInformationEditor editor) {
-		this.categoryForm = form;
-		this.solutionInformation = editor;
-	}
 	
 	public Div setupBanner() {
         // Controls part
@@ -60,39 +49,5 @@ public class Banner {
         
         return controlsLine;
 	}
-	
-	private void saveSolution() {
-		TextField project = categoryForm.getProjectName();
-		TextField category = categoryForm.getCategory();
-		TextField categoryDescription = categoryForm.getCategoryDescription();
-		Select<String> solutionType = categoryForm.getSolutionType();
-		TextField comment = categoryForm.getComment();
-
-		Solution solution = 
-				new Solution(project.getValue(), 
-						category.getValue(),
-						categoryDescription.getValue(),
-						solutionType.getValue(),
-						solutionInformation.getSolutionInformation(),
-						comment.getValue());
-		
-		//solutionService.save(solution);
-	}
-
-	public SolutionFormView getCategoryForm() {
-		return categoryForm;
-	}
-
-	public void setCategoryForm(SolutionFormView categoryForm) {
-		this.categoryForm = categoryForm;
-	}
-
-	public SolutionInformationEditor getSolutionInformation() {
-		return solutionInformation;
-	}
-
-	public void setSolutionInformation(SolutionInformationEditor solutionInformation) {
-		this.solutionInformation = solutionInformation;
-	}
-		
+			
 }

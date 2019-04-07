@@ -19,7 +19,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-@Document(indexName = "solution", type = "solution")
+@Document(indexName = "knowledge", type = "solution")
 public class EsSolution implements Serializable {
 	/**
 	 * 
@@ -29,22 +29,23 @@ public class EsSolution implements Serializable {
 	@Id
 	private Long id;
 	
-	@Field
-	private Long solutionId;
-	
-	@Field
-	private String type;
+	private String solutionId;
+	private String projectName;
     private String category;
-    private String content;
+    private String categoryDescription; 
+	private String solutionType;  //solution types: Implementation, Compensating Control, and False Positive
+    private String solutionInformation; //soltion data
+    private String comment;
     
-    public EsSolution(Solution solution ) {
-    	this.update(solution);
-    }
+	public EsSolution(String solutionId, String projectName, String category, String categoryDescription, 
+			String soltionType, String soltionInformation, String comment) {
+		this.solutionId = solutionId;
+		this.projectName = projectName;
+		this.category = category;
+		this.categoryDescription = categoryDescription;
+		this.solutionType = soltionType;
+		this.solutionInformation = soltionInformation;
+		this.comment = comment;
+	}
     
-    public void update(Solution solution) {
-    	this.solutionId = solution.getId();
-    	this.category = solution.getCategory();
-    	this.type = solution.getSolutionType();
-    	this.content = solution.getSolutionInformation();
-    }
 }

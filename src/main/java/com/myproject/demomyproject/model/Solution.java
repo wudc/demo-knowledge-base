@@ -1,22 +1,24 @@
 package com.myproject.demomyproject.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@Document
+//@Document
+@Document(indexName = "knowledge", type = "solution")
 public class Solution {
 
 	@Id
-    private Long id;
+    private String id;
 	private String projectName;
     private String category;
     private String categoryDescription; 

@@ -1,27 +1,44 @@
 package com.myproject.demomyproject.viewer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.myproject.demomyproject.model.Solution;
+import com.myproject.demomyproject.model.elasticsearch.EsSolution;
+import com.myproject.demomyproject.viewer.eventhandler.FormEventHandler;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.spring.annotation.UIScope;
 
-@SuppressWarnings("serial")
+@Component
+@UIScope
 public class SolutionFormView extends Board {
-
+	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private FormEventHandler eventHandler;
+	
 	private TextField projectName;
-	private TextField category;
+	private ComboBox<String> category;
 	private TextField categoryDescription;
-	private Select<String> solutionType;
+	private ComboBox<String> solutionType;
 	private TextField comment;
 	//private RichTextEditor editor;
 	private TextArea editor;
+	private Long esId; 
+	private String dbId;
 	
+	@Autowired
 	public SolutionFormView() {
 		Div form = buildForm();
 		Div editor = buildEditor();
@@ -38,31 +55,38 @@ public class SolutionFormView extends Board {
 		projectName.setId("project-name");
 		projectName.getElement().setAttribute("colspan", "2");
 		projectName.setLabel("Project Name");
-		projectName.setClassName("large");
-		projectName.setValue("My Current Project");
+		//projectName.setClassName("large");
+		projectName.setRequiredIndicatorVisible(isVisible());
+		projectName.setAutofocus(true);
 
-		category = new TextField();
+		//category should read from the db
+		List<String> categoryList = getCategoryList();
+		category = new ComboBox<String>("Select or Add a Category");
+		category.setAllowCustomValue(true);
+		category.setItems(categoryList);
 		category.setId("category");
 		category.getElement().setAttribute("colspan", "2");
 		category.setLabel("Category");
-		category.setValue("SQL Injection");
+		category.setRequired(true);
 
 		categoryDescription = new TextField();
 		categoryDescription.setId("category-description");
 		categoryDescription.getElement().setAttribute("colspan", "2");
 		categoryDescription.setLabel("Category Description");
-		categoryDescription.setValue("Attack against input from user can be executed via the Web Browser.");
+		categoryDescription.setRequired(true);
 
-		solutionType = new Select<>("Implementation", "Compensating Control", "False Positive");
+		List<String> solutionTypeList = getSolutionTypeList();
+		solutionType = new ComboBox<String>("Select or Add a Solution Type");
+		solutionType.setItems(solutionTypeList);
+		solutionType.setAllowCustomValue(true);
 		solutionType.setId("solution-type");
-		solutionType.setValue("Compensating Control");
 		solutionType.setLabel("Solution Type");
-
+		solutionType.setRequired(true);
+		
 		comment = new TextField();
 		comment.setId("comment");
 		comment.getElement().setAttribute("colspan", "2");
 		comment.setLabel("Comment");
-		comment.setValue("Comment from others.");
 
 		inputsFormLayout.setResponsiveSteps(
 				new FormLayout.ResponsiveStep("0", 1, FormLayout.ResponsiveStep.LabelsPosition.TOP),
@@ -82,8 +106,9 @@ public class SolutionFormView extends Board {
 		editor = new TextArea();
 		editor.setLabel("Solution Description");
 		editor.setThemeName("compact");
-		String text = "[{\"attributes\":{\"bold\":true},\"insert\":\"Team lunch participants:\"},{\"insert\":\" Manolo, Joonas, and Matti\\nTraveling in Antwerp:\\nMetro from the hotel to the venue\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"Taxi from the airport to the hotel\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"}]";
-		editor.setValue(text);
+		editor.setRequiredIndicatorVisible(isVisible());
+		//String text = "[{\"attributes\":{\"bold\":true},\"insert\":\"Team lunch participants:\"},{\"insert\":\" Manolo, Joonas, and Matti\\nTraveling in Antwerp:\\nMetro from the hotel to the venue\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"Taxi from the airport to the hotel\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"}]";
+		//editor.setValue(text);
 
 		editor.setHeight("85%");
 		editor.setWidthFull();
@@ -104,23 +129,80 @@ public class SolutionFormView extends Board {
 
 		Button discardBtn = new Button("Discard changes", e -> Notification.show("Changes were discarded!"));
 		discardBtn.setThemeName("error tertiary");
+		discardBtn.addClickListener(click -> {
+			clearForm();
+		});
+		
+		Button updateBtn = new Button("Update", e -> Notification.show("Changes were updated!"));
+		updateBtn.setThemeName("secondary");
+		updateBtn.addClickListener(click -> {updateForm();});
+		
+		Button saveDraftBtn = new Button("Save New", e -> Notification.show("Changes were saved!"));
+		saveDraftBtn.setThemeName("primary");
+		saveDraftBtn.addClickListener(click -> {saveForm();});
 
-		Button saveDraftBtn = new Button("Save", e -> Notification.show("Changes were saved!"));
-		saveDraftBtn.setThemeName("tertiary");
-
-		btnWrapper.add(discardBtn, saveDraftBtn);
+		btnWrapper.add(discardBtn, updateBtn, saveDraftBtn);
 		addsLine.add(btnWrapper);
 
 		return addsLine;
 	}
+	private List<String> getSolutionTypeList() {
+		List<String> solutionTypeList = new ArrayList<>();
+		solutionTypeList.add("Compensating Control");
+		solutionTypeList.add("Implementation");
+		solutionTypeList.add("False Positive");
+		//To Do. get the list from MongoDB
+		return solutionTypeList;
+	}
+	private List<String> getCategoryList() {
+		List<String> categoryList = new ArrayList<>();
+		categoryList.add("Access Control: ACL Manipulation");
+		categoryList.add("Bean Manipulation");
+		categoryList.add("Cross-Site Scripting: DOM");
+		//To Do. get the list from MongoDB
+		//eventHandler.getAllCategories();
+		return categoryList;
+	}
 	
-	public void updateFormUI(Solution solution) {
+	private void updateForm() {
+		// TODO Auto-generated method stub
+		Solution solution = getCurrentFormData();
+		eventHandler.updateSolution(solution, esId, dbId);
+	}
+
+	private void saveForm() {
+		eventHandler.saveSolution(getCurrentFormData());
+		
+	}
+	
+	private Solution getCurrentFormData() {
+		return new Solution(projectName.getValue(), 
+				category.getValue(),
+				categoryDescription.getValue(),
+				solutionType.getValue(),
+				editor.getValue(),
+				comment.getValue());
+	}
+
+	private void clearForm() {
+		projectName.setValue("");
+		category.setValue("");
+		categoryDescription.setValue("");
+		solutionType.setValue("");
+		comment.setValue("");
+		editor.setValue("");		
+	}
+	
+	public void updateFormUI(EsSolution solution) {
 		projectName.setValue(solution.getProjectName());
+		projectName.setRequired(true);
 		category.setValue(solution.getCategory());
 		categoryDescription.setValue(solution.getCategoryDescription());
 		solutionType.setValue(solution.getSolutionType());
 		comment.setValue(solution.getComment());
 		editor.setValue(solution.getSolutionInformation());
+		esId = solution.getId();
+		dbId = solution.getSolutionId();
 	}
 
 	public TextField getProjectName() {
@@ -131,11 +213,11 @@ public class SolutionFormView extends Board {
 		this.projectName = projectName;
 	}
 
-	public TextField getCategory() {
+	public ComboBox<String> getCategory() {
 		return category;
 	}
 
-	public void setCategory(TextField category) {
+	public void setCategory(ComboBox<String> category) {
 		this.category = category;
 	}
 
@@ -147,11 +229,11 @@ public class SolutionFormView extends Board {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public Select<String> getSolutionType() {
+	public ComboBox<String> getSolutionType() {
 		return solutionType;
 	}
 
-	public void setSolutionType(Select<String> solutionType) {
+	public void setSolutionType(ComboBox<String> solutionType) {
 		this.solutionType = solutionType;
 	}
 
