@@ -11,6 +11,7 @@
 	</parent>
 	<groupId>com.myproject</groupId>
 	<artifactId>demo-knowledge-base</artifactId>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo-knowledge-base</name>
 	<description>Demo project for Spring Boot</description>
@@ -24,6 +25,9 @@
 
 		<!-- Dependencies -->
 		<vaadin.version>13.0.2</vaadin.version>
+
+		<!-- The main class to start by executing java -jar -->
+		<start-class>com.myproject.demomyproject.DemoMyprojectApplication</start-class>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -86,6 +90,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<!-- marked the embedded servlet container as provided -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
