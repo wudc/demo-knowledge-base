@@ -1,11 +1,12 @@
 package com.myproject.demomyproject.viewer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.myproject.demomyproject.dataprovider.CategoryDataProvider;
+import com.myproject.demomyproject.dataprovider.SolutionTypeDataProvider;
 import com.myproject.demomyproject.model.Solution;
 import com.myproject.demomyproject.model.elasticsearch.EsSolution;
 import com.myproject.demomyproject.viewer.eventhandler.FormEventHandler;
@@ -28,6 +29,12 @@ public class SolutionFormView extends Board {
 	@Autowired
 	private FormEventHandler eventHandler;
 	
+	@Autowired
+	private CategoryDataProvider categoryProvider;
+	
+	@Autowired
+	private SolutionTypeDataProvider solutionTypeProvider;
+	
 	private TextField projectName;
 	private ComboBox<String> category;
 	private TextField categoryDescription;
@@ -38,11 +45,10 @@ public class SolutionFormView extends Board {
 	private Long esId; 
 	private String dbId;
 	
-	@Autowired
-	public SolutionFormView() {
+	public void setupFormView( ) {
 		Div form = buildForm();
 		Div editor = buildEditor();
-		addRow(form, editor);
+		addRow(form, editor);		
 	}
 
 	private Div buildForm() {
@@ -60,10 +66,10 @@ public class SolutionFormView extends Board {
 		projectName.setAutofocus(true);
 
 		//category should read from the db
-		List<String> categoryList = getCategoryList();
+		//List<String> categoryList = getCategoryList();
 		category = new ComboBox<String>("Select or Add a Category");
 		category.setAllowCustomValue(true);
-		category.setItems(categoryList);
+		//category.setItems(categoryList);
 		category.setId("category");
 		category.getElement().setAttribute("colspan", "2");
 		category.setLabel("Category");
@@ -75,9 +81,9 @@ public class SolutionFormView extends Board {
 		categoryDescription.setLabel("Category Description");
 		categoryDescription.setRequired(true);
 
-		List<String> solutionTypeList = getSolutionTypeList();
+		//List<String> solutionTypeList = getSolutionTypeList();
 		solutionType = new ComboBox<String>("Select or Add a Solution Type");
-		solutionType.setItems(solutionTypeList);
+		//solutionType.setItems(solutionTypeList);
 		solutionType.setAllowCustomValue(true);
 		solutionType.setId("solution-type");
 		solutionType.setLabel("Solution Type");
@@ -146,26 +152,18 @@ public class SolutionFormView extends Board {
 
 		return addsLine;
 	}
-	private List<String> getSolutionTypeList() {
-		List<String> solutionTypeList = new ArrayList<>();
-		solutionTypeList.add("Compensating Control");
-		solutionTypeList.add("Implementation");
-		solutionTypeList.add("False Positive");
-		//To Do. get the list from MongoDB
-		return solutionTypeList;
-	}
-	private List<String> getCategoryList() {
-		List<String> categoryList = new ArrayList<>();
-		categoryList.add("Access Control: ACL Manipulation");
-		categoryList.add("Bean Manipulation");
-		categoryList.add("Cross-Site Scripting: DOM");
-		//To Do. get the list from MongoDB
-		//eventHandler.getAllCategories();
-		return categoryList;
+	
+	public void setSolutionType() {
+		List<String> solutionTypeList = solutionTypeProvider.getSolutionTypes();
+		solutionType.setItems(solutionTypeList);
 	}
 	
+	public void setCategoryType() {
+		List<String> categoryList = categoryProvider.getCategories();
+		category.setItems(categoryList);
+	}
+		
 	private void updateForm() {
-		// TODO Auto-generated method stub
 		Solution solution = getCurrentFormData();
 		eventHandler.updateSolution(solution, esId, dbId);
 	}
@@ -205,51 +203,4 @@ public class SolutionFormView extends Board {
 		dbId = solution.getSolutionId();
 	}
 
-	public TextField getProjectName() {
-		return projectName;
-	}
-
-	public void setProjectName(TextField projectName) {
-		this.projectName = projectName;
-	}
-
-	public ComboBox<String> getCategory() {
-		return category;
-	}
-
-	public void setCategory(ComboBox<String> category) {
-		this.category = category;
-	}
-
-	public TextField getCategoryDescription() {
-		return categoryDescription;
-	}
-
-	public void setCategoryDescription(TextField categoryDescription) {
-		this.categoryDescription = categoryDescription;
-	}
-
-	public ComboBox<String> getSolutionType() {
-		return solutionType;
-	}
-
-	public void setSolutionType(ComboBox<String> solutionType) {
-		this.solutionType = solutionType;
-	}
-
-	public TextField getComment() {
-		return comment;
-	}
-
-	public void setComment(TextField comment) {
-		this.comment = comment;
-	}
-
-//	public RichTextEditor getEditor() {
-//		return editor;
-//	}
-//
-//	public void setEditor(RichTextEditor editor) {
-//		this.editor = editor;
-//	}
 }

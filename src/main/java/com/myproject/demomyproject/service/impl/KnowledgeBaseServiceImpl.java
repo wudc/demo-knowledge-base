@@ -1,12 +1,13 @@
 package com.myproject.demomyproject.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,9 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 
 	@Autowired
 	private KnowledgeRepository knowledgeRepository;
+	
+	@Autowired
+    MongoTemplate mongoTemplate;
 	
 	@Transactional
 	@Override
@@ -53,10 +57,18 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 
 	@Override
 	public List<String> findAllCategory() {
-		Query query = new Query();
-		query.with(new Sort(Sort.Direction.DESC, "category"));
-		List<String> categories = (List<String>) query.fields().include("category");
-		return null;
+
+		//System.out.println("All category from mongoTemplate distinct category ---------------------");
+		List<Object> objects = mongoTemplate.query(Solution.class).distinct("category").all();
+		ArrayList<String> categories = new ArrayList<>();
+	    for (Object object : objects) {
+	        String category = (String) object;
+	        categories.add(category);
+	    }
+
+	    Collections.sort(categories);
+		categories.forEach(System.out::println);
+		return categories;
 	}
 	
 

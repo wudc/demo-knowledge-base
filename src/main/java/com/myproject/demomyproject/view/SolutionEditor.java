@@ -32,6 +32,10 @@ public class SolutionEditor extends Div {
         
         // Input parts layout
         Board board = categoryForm;
+        categoryForm.setupFormView();
+        //categoryForm.fetchCategory();
+        categoryForm.setCategoryType();
+        categoryForm.setSolutionType();
 
         //input form
         Label separator = new Label();
