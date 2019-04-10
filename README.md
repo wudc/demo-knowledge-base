@@ -1,5 +1,5 @@
 # demo-knowledge-base
-## Technology Stock
+## Technology Stack
 ### Spring Boot
 ### MongoDB server 4.0
 ### Elasticsearch 6.7.0
