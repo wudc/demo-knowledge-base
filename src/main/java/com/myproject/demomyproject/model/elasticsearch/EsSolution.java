@@ -3,12 +3,7 @@ package com.myproject.demomyproject.model.elasticsearch;
 import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Field;
-
-import com.myproject.demomyproject.model.Solution;
-
 import org.springframework.data.elasticsearch.annotations.Document;
-
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

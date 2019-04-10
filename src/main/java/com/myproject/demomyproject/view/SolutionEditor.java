@@ -6,6 +6,7 @@ import com.myproject.demomyproject.viewer.SolutionFormView;
 import com.myproject.demomyproject.viewer.SolutionSearchGrid;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.gridpro.GridPro;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
@@ -20,8 +21,9 @@ import com.vaadin.flow.router.Route;
 @HtmlImport("frontend://src/link-banner.html")
 public class SolutionEditor extends Div {
 	private static final long serialVersionUID = 1L;
+	
     public SolutionEditor(SolutionFormView categoryForm, SolutionSearchGrid search) {
-    	System.out.println("SolutionEditor->categoryForm" + categoryForm);
+
         setId("container");
         
         //top banner
@@ -43,7 +45,7 @@ public class SolutionEditor extends Div {
         separator.setHeight("1px");
         
         //Grid Result 
-        GridPro<EsSolution> grid = search.getSearchResult(board);
+        Grid<EsSolution> grid = search.getSearchResult(board);
         Board gridBoard = new Board();
         Label gridLabel = new Label("Vulnerability Solution");
         gridLabel.setClassName("label-text");

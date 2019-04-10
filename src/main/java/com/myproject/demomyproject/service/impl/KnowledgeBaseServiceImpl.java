@@ -1,6 +1,5 @@
 package com.myproject.demomyproject.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +58,12 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 	public List<String> findAllCategory() {
 
 		//System.out.println("All category from mongoTemplate distinct category ---------------------");
-		List<Object> objects = mongoTemplate.query(Solution.class).distinct("category").all();
-		ArrayList<String> categories = new ArrayList<>();
-	    for (Object object : objects) {
-	        String category = (String) object;
-	        categories.add(category);
-	    }
+		List<String> categories = mongoTemplate.query(Solution.class).distinct("category").as(String.class).all();
+//		ArrayList<String> categories = new ArrayList<>();
+//	    for (Object object : objects) {
+//	        String category = (String) object;
+//	        categories.add(category);
+//	    }
 
 	    Collections.sort(categories);
 		categories.forEach(System.out::println);

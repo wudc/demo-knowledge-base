@@ -17,6 +17,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -40,7 +41,6 @@ public class SolutionFormView extends Board {
 	private TextField categoryDescription;
 	private ComboBox<String> solutionType;
 	private TextField comment;
-	//private RichTextEditor editor;
 	private TextArea editor;
 	private Long esId; 
 	private String dbId;
@@ -74,6 +74,9 @@ public class SolutionFormView extends Board {
 		category.getElement().setAttribute("colspan", "2");
 		category.setLabel("Category");
 		category.setRequired(true);
+		category.addCustomValueSetListener(e -> {
+			category.setValue(e.getDetail());
+		});
 
 		categoryDescription = new TextField();
 		categoryDescription.setId("category-description");
@@ -88,6 +91,9 @@ public class SolutionFormView extends Board {
 		solutionType.setId("solution-type");
 		solutionType.setLabel("Solution Type");
 		solutionType.setRequired(true);
+		solutionType.addCustomValueSetListener(e -> {
+			solutionType.setValue(e.getDetail());
+		});
 		
 		comment = new TextField();
 		comment.setId("comment");
@@ -108,7 +114,6 @@ public class SolutionFormView extends Board {
 		Label editorLabel = new Label("Solution Description");
 		editorLabel.setClassName("label-text");
 
-		//editor = new RichTextEditor();
 		editor = new TextArea();
 		editor.setLabel("Solution Description");
 		editor.setThemeName("compact");
@@ -118,7 +123,8 @@ public class SolutionFormView extends Board {
 
 		editor.setHeight("85%");
 		editor.setWidthFull();
-
+		VerticalLayout layout = new VerticalLayout();
+		layout.add(editor);
 		Div actionPanel = buildActionPanel();
 		editorWrapper.add(editor, actionPanel);
 		return editorWrapper;
