@@ -7,7 +7,6 @@ import com.myproject.demomyproject.viewer.SolutionSearchGrid;
 import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.gridpro.GridPro;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.dom.Element;
