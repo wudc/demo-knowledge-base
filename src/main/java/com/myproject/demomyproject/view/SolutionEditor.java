@@ -4,7 +4,6 @@ import com.myproject.demomyproject.model.elasticsearch.EsSolution;
 import com.myproject.demomyproject.viewer.Banner;
 import com.myproject.demomyproject.viewer.SolutionFormView;
 import com.myproject.demomyproject.viewer.SolutionSearchGrid;
-import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -32,7 +31,7 @@ public class SolutionEditor extends Div {
         Div controlsLine = banner.setupBanner();
         
         // Input parts layout
-        Board board = categoryForm;
+        //Board board = categoryForm;
         categoryForm.setupFormView();
         //categoryForm.fetchCategory();
         categoryForm.setCategoryType();
@@ -44,12 +43,12 @@ public class SolutionEditor extends Div {
         separator.setHeight("1px");
         
         //Grid Result 
-        Grid<EsSolution> grid = search.getSearchResult(board);
-        Board gridBoard = new Board();
+        Grid<EsSolution> grid = search.getSearchResult(categoryForm);
+        Div gridBoard = new Div();
         Label gridLabel = new Label("Vulnerability Solution");
         gridLabel.setClassName("label-text");
         gridBoard.add(gridLabel, grid);
         
-		add(controlsLine, board, gridBoard);
+		add(controlsLine, categoryForm, gridBoard);
     }   
 }

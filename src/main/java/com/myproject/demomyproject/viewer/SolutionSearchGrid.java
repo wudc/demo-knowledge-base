@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 import com.myproject.demomyproject.model.elasticsearch.EsSolution;
 import com.myproject.demomyproject.service.KnowledgeBaseService;
 import com.myproject.demomyproject.service.SearchService;
-import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 @Component
 @UIScope
-public class SolutionSearchGrid {
+public class SolutionSearchGrid extends Div {
 
 	@Autowired
 	@Qualifier("SearchServiceImpl")
@@ -28,7 +28,7 @@ public class SolutionSearchGrid {
 	@Qualifier("KnowledgeBaseServiceImpl")
 	private KnowledgeBaseService storageService;
 
-	public Grid<EsSolution> getSearchResult(Board form) {
+	public Grid<EsSolution> getSearchResult(Div form) {
 		// Grid
 		Grid<EsSolution> grid = new Grid<>();
 

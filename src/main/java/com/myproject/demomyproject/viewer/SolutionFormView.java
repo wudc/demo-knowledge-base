@@ -10,13 +10,13 @@ import com.myproject.demomyproject.dataprovider.SolutionTypeDataProvider;
 import com.myproject.demomyproject.model.Solution;
 import com.myproject.demomyproject.model.elasticsearch.EsSolution;
 import com.myproject.demomyproject.viewer.eventhandler.FormEventHandler;
-import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -24,7 +24,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 
 @Component
 @UIScope
-public class SolutionFormView extends Board {
+public class SolutionFormView extends Div {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
@@ -47,8 +47,14 @@ public class SolutionFormView extends Board {
 	
 	public void setupFormView( ) {
 		Div form = buildForm();
+		form.setWidth("50%");
 		Div editor = buildEditor();
-		addRow(form, editor);		
+		editor.setWidth("50%");
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setPadding(true);
+		layout.add(form, editor);
+		add(layout);
+		this.setWidthFull();
 	}
 
 	private Div buildForm() {

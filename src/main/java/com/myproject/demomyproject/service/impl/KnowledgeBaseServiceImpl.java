@@ -59,11 +59,6 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService{
 
 		//System.out.println("All category from mongoTemplate distinct category ---------------------");
 		List<String> categories = mongoTemplate.query(Solution.class).distinct("category").as(String.class).all();
-//		ArrayList<String> categories = new ArrayList<>();
-//	    for (Object object : objects) {
-//	        String category = (String) object;
-//	        categories.add(category);
-//	    }
 
 	    Collections.sort(categories);
 		categories.forEach(System.out::println);
