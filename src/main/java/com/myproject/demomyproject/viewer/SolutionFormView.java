@@ -129,6 +129,7 @@ public class SolutionFormView extends Div {
 
 		editor.setHeight("85%");
 		editor.setWidthFull();
+
 		VerticalLayout layout = new VerticalLayout();
 		layout.add(editor);
 		Div actionPanel = buildActionPanel();

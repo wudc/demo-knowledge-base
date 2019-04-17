@@ -8,6 +8,7 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.router.Route;
 
@@ -43,12 +44,16 @@ public class SolutionEditor extends Div {
         separator.setHeight("1px");
         
         //Grid Result 
+        VerticalLayout layout = new VerticalLayout();
         Grid<EsSolution> grid = search.getSearchResult(categoryForm);
-        Div gridBoard = new Div();
+        //Div gridBoard = new Div();
         Label gridLabel = new Label("Vulnerability Solution");
         gridLabel.setClassName("label-text");
-        gridBoard.add(gridLabel, grid);
+        //gridBoard.add(gridLabel, grid);
+        layout.add(gridLabel, grid);
+        layout.setWidthFull();
+        layout.setPadding(true);
         
-		add(controlsLine, categoryForm, gridBoard);
+		add(controlsLine, categoryForm, layout);
     }   
 }
