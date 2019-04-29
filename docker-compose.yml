@@ -1,4 +1,10 @@
 version: '3'
+
+networks:
+  default:
+    external:
+      name: knowledge-net
+
 services:
 
   mongodb:
@@ -17,9 +23,13 @@ services:
       - 9300:9300
     hostname: search
     environment:
+      - cluster.name=elasticsearch
       - discovery.type=single-node
+      - network.publish_host=192.168.64.2
       - network.host=0.0.0.0
+      - transport.host=0.0.0.0
       - "xpack.security.enabled=false"
+      - client.transport.sniff=false
     volumes:
       - $HOME/projects/mongo-data/db:/data/db
   knowledge-base:
@@ -34,7 +44,8 @@ services:
       # standard spring data property
       - spring.data.mongodb.uri=mongodb://mongo:27017/knowledge-db
       - spring.data.elasticsearch.cluster-name=elasticsearch
-      - spring.data.elasticsearch.cluster-nodes=0.0.0.0:9300
+      - spring.data.elasticsearch.repositories.enabled=true
+      - spring.data.elasticsearch.cluster-nodes=elasticsearch:9300
     links:
       - mongodb:mongo
       - elasticsearch:elasticsearch
