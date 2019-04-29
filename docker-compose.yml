@@ -1,0 +1,40 @@
+version: '3'
+services:
+
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017
+    hostname: mongo
+    volumes:
+      - $HOME/projects/search-data/db:/data/db
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    hostname: search
+    environment:
+      - discovery.type=single-node
+      - network.host=0.0.0.0
+      - "xpack.security.enabled=false"
+    volumes:
+      - $HOME/projects/mongo-data/db:/data/db
+  knowledge-base:
+    image: demo-knowledge-base
+    container_name: knowledge-base
+    ports:
+      - 8080:8080
+    hostname: knowledge-base
+    environment:
+      # explicit profile required so that datasource is recognized and non-local
+      - SPRING_PROFILES_ACTIVE=mongodb,remote
+      # standard spring data property
+      - spring.data.mongodb.uri=mongodb://mongo:27017/knowledge-db
+      - spring.data.elasticsearch.cluster-name=elasticsearch
+      - spring.data.elasticsearch.cluster-nodes=0.0.0.0:9300
+    links:
+      - mongodb:mongo
+      - elasticsearch:elasticsearch
