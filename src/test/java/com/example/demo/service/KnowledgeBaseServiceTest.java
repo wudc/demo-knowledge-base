@@ -10,18 +10,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.model.TestDataRepository;
+import com.myproject.demomyproject.DemoMyprojectApplication;
 import com.myproject.demomyproject.model.Solution;
 import com.myproject.demomyproject.repository.KnowledgeRepository;
 import com.myproject.demomyproject.service.KnowledgeBaseService;
 import com.myproject.demomyproject.service.impl.KnowledgeBaseServiceImpl;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
+@ContextConfiguration(classes= {DemoMyprojectApplication.class})
 public class KnowledgeBaseServiceTest {
 
 	@TestConfiguration
@@ -48,7 +53,7 @@ public class KnowledgeBaseServiceTest {
 		solution = testDataRepository.getSolution();
 		solutions = testDataRepository.getSolutions();
 		
-		Mockito.when(knowledgeRepository.save(solution)).thenReturn(solution);
+		Mockito.when(knowledgeRepository.insert(solution)).thenReturn(solution);
 		Mockito.when(knowledgeRepository.saveAll(solutions)).thenReturn(solutions);		
 	}
 	

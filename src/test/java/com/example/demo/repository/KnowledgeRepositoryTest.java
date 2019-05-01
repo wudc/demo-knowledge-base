@@ -10,17 +10,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.model.TestDataRepository;
+import com.myproject.demomyproject.DemoMyprojectApplication;
 import com.myproject.demomyproject.model.Solution;
 import com.myproject.demomyproject.repository.KnowledgeRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace=AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
+@ContextConfiguration(classes= {DemoMyprojectApplication.class})
 public class KnowledgeRepositoryTest {
 	
 	@Autowired
@@ -39,7 +40,7 @@ public class KnowledgeRepositoryTest {
 
 	@Test
 	public void testSaveSolution() {
-		Solution savedSolution = knowledgeRepository.save(solution);
+		Solution savedSolution = knowledgeRepository.insert(solution);
 		assertNotNull(savedSolution);
 		assertEquals(savedSolution.getProjectName(), solution.getProjectName());
 		assertEquals(savedSolution.getSolutionType(), solution.getSolutionType());
