@@ -108,7 +108,7 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.9</version>
 				<configuration>
-					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<repository>${project.artifactId}</repository>
 				</configuration>
 			</plugin>
 			<!-- end::plugin[] -->

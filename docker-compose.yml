@@ -6,46 +6,28 @@ networks:
       name: knowledge-net
 
 services:
-
   mongodb:
     image: mongo
-    container_name: mongo
+    container_name: mongo-container
     ports:
-      - 27017
-    hostname: mongo
+      - 27017:27017
+    hostname: demo.mongodb.com
     volumes:
       - $HOME/projects/search-data/db:/data/db
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
-    container_name: elasticsearch
+    container_name: search-container
     ports:
       - 9200:9200
       - 9300:9300
-    hostname: search
+    hostname: demo.elasticsearch.com
     environment:
-      - cluster.name=elasticsearch
       - discovery.type=single-node
-      - network.publish_host=192.168.64.2
-      - network.host=0.0.0.0
-      - transport.host=0.0.0.0
-      - "xpack.security.enabled=false"
-      - client.transport.sniff=false
     volumes:
       - $HOME/projects/mongo-data/db:/data/db
-  knowledge-base:
-    image: demo-knowledge-base
-    container_name: knowledge-base
+  elasticsearchHQ:
+    image: elastichq/elasticsearch-hq
+    container_name: searchHq-container
     ports:
-      - 8080:8080
-    hostname: knowledge-base
-    environment:
-      # explicit profile required so that datasource is recognized and non-local
-      - SPRING_PROFILES_ACTIVE=mongodb,remote
-      # standard spring data property
-      - spring.data.mongodb.uri=mongodb://mongo:27017/knowledge-db
-      - spring.data.elasticsearch.cluster-name=elasticsearch
-      - spring.data.elasticsearch.repositories.enabled=true
-      - spring.data.elasticsearch.cluster-nodes=elasticsearch:9300
-    links:
-      - mongodb:mongo
-      - elasticsearch:elasticsearch
+      - 5000:5000
+    hostname: demo.elasticsearch-hq.com
