@@ -24,7 +24,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Dependencies -->
-		<vaadin.version>13.0.3</vaadin.version>
+		<vaadin.version>14.4.10</vaadin.version>
 
 		<!-- The main class to start by executing java -jar -->
 		<start-class>com.myproject.demomyproject.DemoMyprojectApplication</start-class>
